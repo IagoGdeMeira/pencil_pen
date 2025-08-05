@@ -8,6 +8,11 @@ class Timestamp(models.Model):
 
     class Meta:
         abstract = True
+        
+    @property
+    def since_when(self) -> datetime: return self._since_when
+    @property
+    def updated_when(self) -> datetime: return self._updated_when
 
     def get_since_when(self) -> datetime: return self._since_when
     def get_updated_when(self) -> datetime: return self._updated_when
