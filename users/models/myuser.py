@@ -38,30 +38,30 @@ class MyUser(Timestamp, models.Model):
         if len(name) < 4: raise ValueError("O nome exibido não pode ter menos de 4 caracteres.")
         if len(name) > self._shown_name.max_length: raise ValueError("O nome exibido não pode ter mais de 100 caracteres.")
         self._shown_name = name
-        self.save(update_fields=["shown_name"])
+        self.save(update_fields=["_shown_name"])
 
     def get_biography(self) -> str: return self._biography
     def set_biography(self, biography: str) -> None:
         if not biography: raise ValueError("A biografia não pode ser vazia.")
         if len(biography) > self._biography.max_length: raise ValueError("A biografia não pode ter mais de 300 caracteres.")
         self._biography = biography
-        self.save(update_fields=["biography"])
+        self.save(update_fields=["_biography"])
 
     def get_profile_pic_path(self) -> str: return self._profile_pic_path
     def set_profile_pic_path(self, path: str) -> None:
         if not path: raise ValueError("O caminho da foto de perfil não pode ser vazio.")
         if len(path) > self._profile_pic_path.max_length: raise ValueError("O caminho da foto de perfil não pode ter mais de 255 caracteres.")
         self._profile_pic_path = path
-        self.save(update_fields=["profile_pic_path"])
+        self.save(update_fields=["_profile_pic_path"])
 
     def get_set_to_deletion_when(self) -> datetime: return self._set_to_deletion_when
     def set_set_to_deletion_when(self, d: datetime) -> None:
         if not isinstance(d, datetime): raise ValueError("A data de exclusão deve ser um objeto datetime.")
         if d < datetime.now(): raise ValueError("A data de exclusão não pode ser no passado.")
         self._set_to_deletion_when = d
-        self.save(update_fields=["set_to_deletion_when"])
+        self.save(update_fields=["_set_to_deletion_when"])
 
     def get_accessable(self) -> bool: return self._accessable
     def set_accessable(self, accessable: bool) -> None:
         self._accessable = accessable
-        self.save(update_fields=["accessable"])
+        self.save(update_fields=["_accessable"])
