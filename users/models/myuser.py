@@ -6,10 +6,10 @@ from datetime import datetime
 
 class MyUser(Timestamp, models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    relations = models.OneToOneField("UserRelations", on_delete=models.CASCADE, related_name='refers_to')
-    profile_permissions = models.OneToOneField("UserPermissions", on_delete=models.CASCADE, related_name='refers_to')
+    relations = models.OneToOneField("UserRelations", on_delete=models.CASCADE, related_name='user_relations')
+    profile_permissions = models.ForeignKey("UserPermissions", on_delete=models.CASCADE, related_name='users_with_permissions')
     
-    _shown_name = models.CharField(max_length=100, blank=True, null=True)
+    _nickname = models.CharField(max_length=100, blank=True, null=True)  # Alterado de _shown_name para _nickname
     _biography = models.TextField(max_length=300, blank=True, null=True)
     _profile_pic_path = models.CharField(max_length=255, blank=True, null=True)
     _set_to_deletion_when = models.DateTimeField(blank=True, null=True)
@@ -22,23 +22,21 @@ class MyUser(Timestamp, models.Model):
     def __str__(self): return getattr(self.user, 'username', 'Usuário')
     
     @property
-    def shown_name(self) -> str: return self._shown_name or getattr(self.user, 'username', 'Usuário')
-    @property
-    def biography(self) -> str: return self._biography or ""
-    @property
-    def profile_pic_path(self) -> str: return self._profile_pic_path or ""
-    @property
-    def set_to_deletion_when(self) -> datetime: return self._set_to_deletion_when
-    @property
-    def accessable(self) -> bool: return self._accessable
+    def nickname(self) -> str:
+        return self._nickname or getattr(self.user, 'username', 'Usuário')
 
-    def get_shown_name(self) -> str: return self._shown_name
-    def set_shown_name(self, name: str) -> None:
-        if not name: raise ValueError("O nome exibido não pode ser vazio.")
-        if len(name) < 4: raise ValueError("O nome exibido não pode ter menos de 4 caracteres.")
-        if len(name) > self._shown_name.max_length: raise ValueError("O nome exibido não pode ter mais de 100 caracteres.")
-        self._shown_name = name
-        self.save(update_fields=["_shown_name"])
+    def get_nickname(self) -> str:
+        return self._nickname
+
+    def set_nickname(self, nickname: str) -> None:
+        if not nickname:
+            raise ValueError("O apelido não pode ser vazio.")
+        if len(nickname) < 4:
+            raise ValueError("O apelido não pode ter menos de 4 caracteres.")
+        if len(nickname) > self._nickname.max_length:
+            raise ValueError("O apelido não pode ter mais de 100 caracteres.")
+        self._nickname = nickname
+        self.save(update_fields=["_nickname"])
 
     def get_biography(self) -> str: return self._biography
     def set_biography(self, biography: str) -> None:

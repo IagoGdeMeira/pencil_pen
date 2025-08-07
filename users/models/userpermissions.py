@@ -2,7 +2,6 @@ from django.db import models
 
 
 class UserPermissions(models.Model):
-    refers_to = models.OneToOneField("MyUser", on_delete=models.CASCADE, related_name='permissions')
     _friends_allowed = models.BooleanField(default=True)
     _followers_allowed = models.BooleanField(default=False)
     _following_allowed = models.BooleanField(default=False)
@@ -11,8 +10,8 @@ class UserPermissions(models.Model):
         verbose_name = "Permissões de Usuário"
         verbose_name_plural = "Permissões de Usuários"
 
-    def __str__(self): return f"Permissões de {getattr(self.refers_to, 'user.username', 'Usuário')}"
-    
+    def __str__(self): return "Permissões de Usuário"
+
     @property
     def friends_allowed(self) -> bool: return self._friends_allowed
     @property
