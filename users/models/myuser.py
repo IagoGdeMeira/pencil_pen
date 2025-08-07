@@ -6,7 +6,7 @@ from datetime import datetime
 
 class MyUser(Timestamp, models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    relations = models.OneToOneField("UserRelations", on_delete=models.CASCADE, related_name='user_relations')
+    relations = models.OneToOneField("UserRelations", on_delete=models.CASCADE, related_name='myuser_relations')
     profile_permissions = models.ForeignKey("UserPermissions", on_delete=models.CASCADE, related_name='users_with_permissions')
     
     _nickname = models.CharField(max_length=100, blank=True, null=True)  # Alterado de _shown_name para _nickname

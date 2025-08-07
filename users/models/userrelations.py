@@ -3,7 +3,7 @@ from .myuser import MyUser
 
 
 class UserRelations(models.Model):
-    refers_to = models.OneToOneField(MyUser, on_delete=models.CASCADE, related_name='relations')
+    refers_to = models.OneToOneField("MyUser", on_delete=models.CASCADE, related_name='relations_myuser')
     _friends = models.ManyToManyField(MyUser, symmetrical=True, blank=True)
     _followers = models.ManyToManyField(MyUser, symmetrical=False, blank=True, related_name='+')
     _following = models.ManyToManyField(MyUser, symmetrical=False, blank=True, related_name='+')
